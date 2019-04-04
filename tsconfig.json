@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "es5",
+        "strict": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "isolatedModules": true,
+        "noEmitHelpers": false,
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "compileOnSave": false,
+        "lib": [
+            "dom",
+            "es2015",
+            "es5",
+            "es6",
+            "es7",
+            "es2015.promise"
+        ],
+        "exclude": [
+            "node_modules",
+            "typings/main",
+            "typings/main.d.ts"
+        ]
+    }
+    
+}
