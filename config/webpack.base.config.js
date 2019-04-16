@@ -3,31 +3,44 @@ const path = require('path');
 const baseDir = process.cwd();
 const webpack = require('webpack');
 const fsExtra = require('fs-extra');
+const webpackBuildPath = path.resolve(baseDir, '__build');
 /**
  * 复制webpack4中间件相关配置到项目目录
  */
-if(!fs.existsSync(`${baseDir}/.babelrc`)) {
+if (!fs.existsSync(`${baseDir}/.babelrc`)) {
     fsExtra.copySync(path.join(__dirname, '../.babelrc'), `${baseDir}/.babelrc`);
 }
-if(!fs.existsSync(`${baseDir}/postcss.config.js`)) {
+if (!fs.existsSync(`${baseDir}/postcss.config.js`)) {
     fsExtra.copySync(path.join(__dirname, '../postcss.config.js'), `${baseDir}/postcss.config.js`);
 }
-if(!fs.existsSync(`${baseDir}/tsconfig.json`)) {
-    fsExtra.copySync(path.join(__dirname,  '../tsconfig.json'), `${baseDir}/tsconfig.json`);
+if (!fs.existsSync(`${baseDir}/tsconfig.json`)) {
+    fsExtra.copySync(path.join(__dirname, '../tsconfig.json'), `${baseDir}/tsconfig.json`);
 }
 /**
  * @param {params} 项目使用配置
- * @param {params.publicPath} 输出路径dev和build
+ * @param {params.env} 环境变量
+ * @param {params.publicPath} 生产环境输出路径
  * @param {params.isMulti} 是单页应用还是多页应用
  * @param {params.proxy} 代理接口配置
  * @param {params.build} 构建输出目录
  * @param {params.entry} 区分多页还是单页的入口
+ * @param {params.enableDll} 是否启用dll构建
  */
-module.exports = async function(params) {
+module.exports = async function (params) {
+    // 当前构建环境
+    let env = params.env || (process.env.NODE_ENV || 'prod');
+    process.env.NODE_ENV = env;
+    // 输出路径(目录对应的一个绝对路径),用于开发环境
+    let buildDir = path.normalize(path.resolve(baseDir, `${params.build}/`));
     //定义webpack构建基本配置
     let baseConfig = {
         entry: '',
-        output: '',
+        output: {
+            path: env === "dev" ? webpackBuildPath : buildDir,
+            sourceMapFilename: '[file].map',
+            devtoolModuleFilenameTemplate: '[resource-path]',
+            filename: env === "dev" ? "[name].js" : "scripts/[name].js"
+        },
         module: {
             rules: [
                 {
@@ -45,7 +58,14 @@ module.exports = async function(params) {
                     }]
                 },
                 {
+                    test: /\.pug$/,
+                    use: [{
+                        loader: 'pug-plain-loader'
+                    }]
+                },
+                {
                     test: /\.(ts|tsx)$/,
+                    exclude: /(node_modules|bower_components)/,
                     use: [{
                         loader: 'ts-loader'
                     }]
@@ -107,6 +127,9 @@ module.exports = async function(params) {
         // 外部扩展，从输出的bundle中排除依赖
         externals: {},
         // 统计信息，发生错误时提示
-        state: 'errors-only'
+        state: 'errors-only',
+        colors: {
+            red: '\u001b[31m'
+        }
     }
 }

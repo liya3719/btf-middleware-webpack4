@@ -13,6 +13,8 @@
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
         "compileOnSave": false,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
         "lib": [
             "dom",
             "es2015",
