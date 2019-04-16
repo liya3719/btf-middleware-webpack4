@@ -2,8 +2,9 @@ const fs = require('fs');
 const webpack = require('webpack');
 const fsExtra = require('fs-extra');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugi');
-module.exports = async function (publicPath, env, isMulti = false) {
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackIncludeAssets = require('html-webpack-include-assets-plugin');
+module.exports = async function (publicPath, env, enableDll = false, isMulti = false) {
   let webpackProdConfig = {
     module: {
       rules: [
@@ -61,5 +62,16 @@ module.exports = async function (publicPath, env, isMulti = false) {
         new OptimizeCssAssetsPlugin()
       ]
     }
+  };
+  // 启用dll构建则使用DllReferencePlugin webpack原生插件和HtmlWebpackIncludeAssets第三方插件
+  if(enableDll) {
+    webpackProdConfig.plugins.push(new webpack.DllReferencePlugin({
+      manifest: `${publishPath}/manifest.json`,
+      name: 'common'
+    }));
+    webpackProdConfig.plugins.push(new HtmlWebpackIncludeAssets({
+      assets: ['/public/dll.js'],
+      append: false
+    }))
   }
 }
