@@ -1,14 +1,6 @@
 {
-    "presets": [
-        "es2015",
-        "stage-0"
-    ],
+    "presets": ["@babel/preset-env"],
     "plugins": [
-        "transform-runtime",
-        "transform-remove-strict-mode",
-        "add-module-exports",
-        "typecheck",
-        "transform-decorators-legacy",
-        "transform-typescript"
+      "@babel/plugin-transform-runtime"
     ]
-}
+  }

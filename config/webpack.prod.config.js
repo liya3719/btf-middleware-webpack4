@@ -1,77 +1,99 @@
-const fs = require('fs');
-const webpack = require('webpack');
-const fsExtra = require('fs-extra');
+#!/usr/bin/env node
+const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const {
+  CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const HtmlWebpackIncludeAssets = require('html-webpack-include-assets-plugin');
-module.exports = async function (publicPath, env, enableDll = false, isMulti = false) {
+module.exports = function (params) {
   let webpackProdConfig = {
+    mode: params.mode,
     module: {
-      rules: [
-        {
+      rules: [{
           test: /\.css$/,
-          use: [{
-            loader: [MiniCssExtractPlugin.loader, "vue-style-loader", "css-loader"],
-            options: {
-              publicPath: publicPath,
-              hmr: env === 'dev'
-            }
-          }]
+          use: [
+            'vue-style-loader',
+            MiniCssExtractPlugin.loader,
+            'css-loader'
+          ]
         },
         {
           test: /\.less$/,
-          use: [{
-            loader: [MiniCssExtractPlugin.loader, "vue-style-loader", "less-loader", "css-loader"],
-            options: {
-              publicPath: publicPath,
-              hmr: env === 'dev'
-            }
-          }]
+          use: [
+            'vue-style-loader',
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            'less-loader'
+          ]
         },
         {
-          test: /\.styl(us)$/,
-          use: [{
-            loader: [MiniCssExtractPlugin.loader, "vue-style-loader", "stylus-loader", "css-loader"],
-            options: {
-              publicPath: publicPath,
-              hmr: env === 'dev'
-            }
-          }]
-        },
-        {
-          test: /\.(sc|sa)ss$/,
-          use: [{
-            loader: [MiniCssExtractPlugin.loader, "vue-style-loader", "sass-loader", "css-loader"],
-            options: {
-              publicPath: publicPath,
-              hmr: env === 'dev'
-            }
-          }]
+          test: /\.(sass|scss)$/,
+          use: [
+            'vue-style-loader',
+            MiniCssExtractPlugin.loader,
+            'sass-loader'
+          ]
         }
       ]
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filname: '[name].css',
-        chunkFilename: '[id].css'
+        filename: 'css/[name].css'
       })
     ],
     optimization: {
-      nodeEnv: 'prod',
       minimizer: [
-        new OptimizeCssAssetsPlugin()
-      ]
-    }
+        new UglifyJsPlugin({
+          exclude: /\.min\.js$/,
+          cache: true,
+          parallel: true,
+          extractComments: true,
+          uglifyOptions: {
+            compress: {
+              unused: true,
+              drop_debugger: true
+            },
+            output: {
+              comments: false
+            }
+          }
+        }),
+        new OptimizeCssAssetsPlugin({
+          assetNameRegExp: /\.css$/,
+          cssProcessorOptions: {
+            safe: true,
+            autoprefixer: {
+              disable: true
+            },
+            mergeLonghand: false,
+            discardComments: {
+              removeAll: true
+            }
+          },
+          canPrint: true
+        })
+      ],
+      splitChunks: {
+        chunks: 'async',
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            minSize: 30000,
+            chunks: 'initial',
+            priority: 1
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
+          }
+        }
+      }
+    },
+    devtool: 'source-map'
   };
-  // 启用dll构建则使用DllReferencePlugin webpack原生插件和HtmlWebpackIncludeAssets第三方插件
-  if(enableDll) {
-    webpackProdConfig.plugins.push(new webpack.DllReferencePlugin({
-      manifest: `${publishPath}/manifest.json`,
-      name: 'common'
-    }));
-    webpackProdConfig.plugins.push(new HtmlWebpackIncludeAssets({
-      assets: ['/public/dll.js'],
-      append: false
-    }))
-  }
+  return webpackProdConfig;
 }
