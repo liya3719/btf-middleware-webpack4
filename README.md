@@ -16,9 +16,9 @@ btf-middleware-webpack4
 | alias | 别名 | Object | 否 |
 | externals | 全局配置不打包的文件 | Object | 否 |
 ### 测试
-|事件名称|回调参数|说明|
-|:--:|:--:|:--:|
-|top-status-change|顶部刷新区域状态变更时触发|提示区域状态|
+|参数|说明|类型|必选|
+|:--:|:--:|:--:|:--:|
+|top-status-change|顶部刷新区域状态变更时触发|提示区域状态|是|
 #### 使用
 ```
 const path = require('path');
