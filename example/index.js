@@ -13,6 +13,7 @@ const params = {
   alias: {
     '@': path.resolve(__dirname, 'src')
   },
+  srcPath: '',
   externals: {
     vue: 'Vue'
   },

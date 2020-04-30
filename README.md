@@ -9,6 +9,7 @@ entry | 构建入口(单页或多页)| Object | 是 |
 port | 开发端口| Number | 是 |
 mode | 开发模式 | String | 是 (developmemnt或 production)|
 env | 同上 |  String | 是(dev或prod)|
+srcPath| 模板入口地址,提供给htmlWebpackPlugin使用 | String | 是 | 
 proxy | 开发环境代理对象 | Object | 是 |
 modules | 模块搜索内容 | String | 否 |
 isAnalyzer | 打包体积查看 | Boolean | 否 |
