@@ -4,7 +4,7 @@ btf-middleware-webpack4
 抽离webpack4通用构建配置，对webpack版本4以下构建工具无缝升级，该工具支持对Vue、ts、es6、less、sass、scss编译
 #### 参数说明
 | 参数 | 说明 | 类型 | 必选 |
----|---|---|---|---|
+| ---|---|---|---|---|
 | entry | 构建入口(单页或多页)| Object | 是 |
 | port | 开发端口| Number | 是 |
 | mode | 开发模式 | String | 是 (developmemnt或 production)|
