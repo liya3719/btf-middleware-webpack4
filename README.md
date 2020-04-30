@@ -19,6 +19,7 @@ btf-middleware-webpack4
 |参数|说明|类型|必选|
 |:--:|:--:|:--:|:--:|
 |top-status-change|顶部刷新区域状态变更时触发|提示区域状态|是|
+|entry|构建入口(单页或多页)|Object|是|
 #### 使用
 ```
 const path = require('path');
