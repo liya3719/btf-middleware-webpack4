@@ -4,17 +4,17 @@ const params = {
   entry: {
     app: path.resolve(__dirname, './src/main.js')
   },
-  devServer: {
-    port: 8080,
-    proxy: {
-      '/test': {
-        target: 'http://localhost:3000',
-      }
-    }
+  proxy: {
+    api: ['/api', '/test'],
+    target: 'http://localhost:3000'
   },
+  port: 8090,
   isAnalyzer: false,
   alias: {
     '@': path.resolve(__dirname, 'src')
+  },
+  externals: {
+    vue: 'Vue'
   },
   mode: 'production',  // production or development
   modules: '',

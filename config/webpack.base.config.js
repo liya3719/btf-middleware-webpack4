@@ -34,7 +34,7 @@ module.exports = function (params) {
       sourceMapFilename: '[file].map',
       filename: params.mode == "development" ? "[name].[hash].js": "js/[name].[hash].js",
       libraryTarget: 'umd',
-      publicPath: params.mode == "development" ? './js' : params.publicPath || './js'
+      publicPath: params.mode == "development" ? '/' : params.publicPath || './js'
     },
     module: {
       rules: [

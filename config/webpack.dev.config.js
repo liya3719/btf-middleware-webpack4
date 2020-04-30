@@ -54,13 +54,6 @@ module.exports = function (params) {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
     ],
-    devServer: {
-      hot: true,
-      port: params.devServer.port,
-      compress: true,
-      open: true,
-      proxy: params.devServer.proxy
-    },
     devtool: params.devtool || "inline-source-map"
   };
   return webpackConfig;

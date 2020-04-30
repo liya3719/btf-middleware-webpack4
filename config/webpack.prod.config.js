@@ -76,10 +76,11 @@ module.exports = function (params) {
         })
       ],
       splitChunks: {
-        chunks: 'async',
         cacheGroups: {
           vendors: {
-            test: /[\\/]node_modules[\\/]/,
+            test: (module) => {
+              return /node_modules/.test(module.context)
+            },
             name: 'vendors',
             minSize: 30000,
             chunks: 'initial',
