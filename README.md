@@ -1,8 +1,8 @@
 #### 名称
 btf-middleware-webpack4
 <p align="center">
-  <a href="https://npmcharts.com/compare/btf-middleware-webpack4?minimal=true"><img src="https://img.shields.io/npm/dm/btf-middleware-webpack4.svg?sanitize=true" alt="Downloads"></a>
-  </p>
+<a href="https://npmcharts.com/compare/btf-middleware-webpack4?minimal=true"><img src="https://img.shields.io/npm/dm/btf-middleware-webpack4.svg?sanitize=true" alt="Downloads"></a>
+</p>
 #### 功能
 抽离webpack4通用构建配置，对webpack版本4以下构建工具无缝升级，该工具支持对Vue、ts、es6、less、sass、scss编译
 #### 参数说明
