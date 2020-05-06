@@ -10,6 +10,7 @@ btf-middleware-webpack4
 #### 参数说明
 |参数|说明|类型|必选|
 |:--:|:--:|:--:|:--:|
+|isMulti|是否为多页应用|Boolean|false|
 |entry|构建入口(单页或多页)|Object|是|
 |port|开发端口|Number|是|
 |mode|开发模式|String|是 (developmemnt或 production)|
@@ -23,8 +24,11 @@ btf-middleware-webpack4
 #### 使用
 ```
 const path = require('path');
-const webpackBuild = require('../index');
+const baseDir = process.cwd();
+const srcPath = path.resolve(baseDir, 'src');
+const webpackBuild = require('btf-middleware-webpack4');
 const params = {
+  isMulti: false,
   entry: {
     app: path.resolve(__dirname, './src/main.js')
   },
@@ -32,6 +36,7 @@ const params = {
     api: ['/api', '/test'],
     target: 'http://localhost:3000'
   },
+  srcPath: srcPath,
   port: 8090,
   isAnalyzer: false,
   alias: {

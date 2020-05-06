@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const baseDir = process.cwd();
 const fsExtra = require('fs-extra');
-const srcPath = path.resolve(baseDir, 'example/src');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -87,11 +86,6 @@ module.exports = function (params) {
     plugins: [
       new VueLoaderPlugin(),
       new ProgressBarPlugin(),
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: `${srcPath}/index.html`,
-        inject: 'body',
-      })
     ],
     resolve: {
       // 设置引用模块的别名
@@ -122,5 +116,25 @@ module.exports = function (params) {
   const config = require(`./webpack.${params.env}.config`)(params);
   let compileConfig = webpackMerge.smart(baseConfig, config);
   compileConfig = webpackMerge.smart(compileConfig, webpackExtendConfig);
+  if(params.isMulti) {
+    let config;
+    for(let file in params.entry) {
+      config = {
+        template: path.resolve(params.srcPath, `${file}.html`),
+        inject: 'body',
+        chunks: ['common', file],
+        filename: `${file}.html`
+      }
+    };
+    compileConfig.plugins.push(
+      new HtmlWebpackPlugin(config)
+    )
+  } else {
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: `${params.srcPath}/index.html`,
+      inject: 'body',
+    })
+  }
   return compileConfig;
 }

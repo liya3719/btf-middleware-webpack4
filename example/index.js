@@ -1,6 +1,7 @@
 const path = require('path');
 const webpackBuild = require('../index');
 const params = {
+  isMulti: false,
   entry: {
     app: path.resolve(__dirname, './src/main.js')
   },
