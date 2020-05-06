@@ -10,7 +10,7 @@ btf-middleware-webpack4
 #### 参数说明
 |参数|说明|类型|必选|
 |:--:|:--:|:--:|:--:|
-|isMulti|是否为多页应用|Boolean|false|
+|isMulti|是否为多页应用|Boolean|是|
 |entry|构建入口(单页或多页)|Object|是|
 |port|开发端口|Number|是|
 |mode|开发模式|String|是 (developmemnt或 production)|
