@@ -64,3 +64,6 @@ webpackBuild(params);
 - 支持动态import
 #### 1.0.6版本更新内容如下
 - 修复development直接编译css文件错误
+#### 1.0.7版本更新内容如下
+- 修复proxyMiddleware版本问题
+

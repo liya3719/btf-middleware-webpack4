@@ -1,6 +1,6 @@
 {
   "name": "btf-middleware-webpack4",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "基于webpack4提取大部分公用功能，只需要简单配置就可使用",
   "main": "index.js",
   "scripts": {

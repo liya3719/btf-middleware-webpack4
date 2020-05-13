@@ -11,7 +11,7 @@ module.exports = function(params) {
     const baseConfig = webpackBaseConfig(params);
     const compiler = webpack(baseConfig);
     if(params.mode === 'development') {
-      const proxy = httpProxyMiddleware.createProxyMiddleware(params.proxy.api, {
+      const proxy = httpProxyMiddleware(params.proxy.api, {
         target: params.proxy.target,
         ws: true,
         changeOrigin: true,
