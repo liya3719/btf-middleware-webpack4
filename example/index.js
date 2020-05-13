@@ -1,4 +1,5 @@
 const path = require('path');
+const baseDir = process.cwd();
 const webpackBuild = require('../index');
 const params = {
   isMulti: false,
@@ -14,12 +15,9 @@ const params = {
   alias: {
     '@': path.resolve(__dirname, 'src')
   },
-  srcPath: '',
-  externals: {
-    vue: 'Vue'
-  },
-  mode: 'production',  // production or development
+  srcPath: baseDir,
+  mode: 'development',  // production or development
   modules: '',
-  env: 'prod' // prod or dev
+  env: 'dev' // prod or dev
 };
 webpackBuild(params);

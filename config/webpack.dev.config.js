@@ -7,53 +7,56 @@ const webpack = require('webpack');
 module.exports = function (params) {
   let webpackConfig = {
     mode: params.mode,
-    // module: {
-    //   rules: [
-    //     {
-    //       test: /\.css$/,
-    //       use: [
-    //         'vue-style-loader',
-    //         {
-    //           loader: 'postcss-loader'
-    //         },
-    //         'css-loader'
-    //       ]
-    //     },
-    //     {
-    //       test: /\.less$/,
-    //       use: [
-    //         'vue-style-loader',
-    //         {
-    //           loader: "css-loader",
-    //           options: {
-    //             sourceMap: true,
-    //             importLoaders: 1
-    //           }
-    //         },
-    //         "postcss-loader",
-    //         "less-loader"
-    //       ]
-    //     },
-    //     {
-    //       test: /\.(sass|scss)$/,
-    //       use: [
-    //         'vue-style-loader',
-    //         {
-    //           loader: "css-loader",
-    //           options: {
-    //             sourceMap: true,
-    //             importLoaders: 1
-    //           }
-    //         },
-    //         "postcss-loader",
-    //         "sass-loader"
-    //       ]
-    //     }
-    //   ]
-    // },
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          use: [
+            'vue-style-loader',
+            {
+              loader: 'postcss-loader'
+            },
+            'css-loader'
+          ]
+        },
+        {
+          test: /\.less$/,
+          use: [
+            'vue-style-loader',
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: true,
+                importLoaders: 1
+              }
+            },
+            "postcss-loader",
+            "less-loader"
+          ]
+        },
+        {
+          test: /\.(sass|scss)$/,
+          use: [
+            'vue-style-loader',
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: true,
+                importLoaders: 1
+              }
+            },
+            "postcss-loader",
+            "sass-loader"
+          ]
+        }
+      ]
+    },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
     ],
+    performance: {
+      hints: false,
+    },
     devtool: params.devtool || "inline-source-map"
   };
   return webpackConfig;

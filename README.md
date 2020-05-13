@@ -21,6 +21,7 @@ btf-middleware-webpack4
 |isAnalyzer|打包体积查看|Boolean|否|
 |alias|别名|Object|否|
 |externals|全局配置不打包的文件|Object|否|
+|useTs|是否使用ts|Boolean|否|
 #### 使用
 ```
 const path = require('path');
@@ -51,3 +52,13 @@ const params = {
 };
 webpackBuild(params);
 ```
+#### 说明
+1、需要目标项目package.json webpack安装到4.x版本
+#### 更新日志
+#### 1.0.3版本更新内容如下
+- 修复构建不输出html文件的问题
+- 新增参数useTs,是否需要tsconfig.json配置
+- development编译less\sasss\scss\stylus
+- 调整baseConfig配置
+- 修复development热更新失败问题
+- 支持动态import

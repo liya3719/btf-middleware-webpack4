@@ -7,29 +7,19 @@ const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
-const webpackExtendConfig = require(`${baseDir}/webpack.config`);
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-/**
- * 复制webpack4中间件相关配置到项目目录
- */
-if (!fs.existsSync(`${baseDir}/.babelrc`)) {
-  fsExtra.copySync(path.join(__dirname, '../.babelrc'), `${baseDir}/.babelrc`);
-}
-if (!fs.existsSync(`${baseDir}/postcss.config.js`)) {
-  fsExtra.copySync(path.join(__dirname, '../postcss.config.js'), `${baseDir}/postcss.config.js`);
-}
-if (!fs.existsSync(`${baseDir}/tsconfig.json`)) {
-  fsExtra.copySync(path.join(__dirname, '../tsconfig.json'), `${baseDir}/tsconfig.json`);
-}
 /**
  * @param {params} 项目使用配置
  */
 module.exports = function (params) {
   //定义webpack构建基本配置
+  let entry = ['webpack-hot-middleware/client?noInfo=true&reload=true'];
+  for(let k in params.entry) {
+    entry.push(params.entry[k]);
+  };
   let baseConfig = {
-    entry: params.entry,
+    entry: entry,
     output: {
-      path: params.mode == "development" ? '/' : path.resolve(__dirname, '../dist/'),
+      path: params.mode == "development" ? '/' : path.resolve(baseDir, 'dist/'),
       sourceMapFilename: '[file].map',
       filename: params.mode == "development" ? "[name].[hash].js": "js/[name].[hash].js",
       libraryTarget: 'umd',
@@ -85,7 +75,6 @@ module.exports = function (params) {
     },
     plugins: [
       new VueLoaderPlugin(),
-      new ProgressBarPlugin(),
     ],
     resolve: {
       // 设置引用模块的别名
@@ -94,14 +83,6 @@ module.exports = function (params) {
       modules:  params.modules ? ["node_modules"].concat(params.modules) : ['node_modules'],
       //自动解析确定的扩展，能够使用户在引入模块时不带扩展
       extensions: ['.less', '.sass', '.scss', '.vue', '.ts', 'tsx', '.js', 'jsx', '.css', '.gif', '.png', '.jpg']
-    },
-    performance: {
-      // 构建资源过大显示错误警告
-      hints: 'error',
-      // 入口文件超过290kb则显示性能提示
-      maxEntrypointSize: 300000,
-      // 构建文件后单个文件超过90kb后则显示性能提示
-      maxAssetSize: 100000
     },
     // 外部扩展，从输出的bundle中排除依赖
     externals: params.externals || {},
@@ -113,6 +94,7 @@ module.exports = function (params) {
       new BundleAnalyzerPlugin()
     )
   };
+  const webpackExtendConfig = require(`${baseDir}/webpack.config`);
   const config = require(`./webpack.${params.env}.config`)(params);
   let compileConfig = webpackMerge.smart(baseConfig, config);
   compileConfig = webpackMerge.smart(compileConfig, webpackExtendConfig);
@@ -130,11 +112,23 @@ module.exports = function (params) {
       new HtmlWebpackPlugin(config)
     )
   } else {
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: `${params.srcPath}/index.html`,
-      inject: 'body',
-    })
+    compileConfig.plugins.push(
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: `${params.srcPath}/index.html`,
+        inject: 'body',
+      })
+    )
+  };
+  /**
+   * 复制webpack4中间件相关配置到项目目录
+   */
+  fsExtra.copySync(path.join(__dirname, '../.babelrc'), `${baseDir}/.babelrc`);
+  if (!fs.existsSync(`${baseDir}/postcss.config.js`)) {
+    fsExtra.copySync(path.join(__dirname, '../postcss.config.js'), `${baseDir}/postcss.config.js`);
+  }
+  if (params.useTs) {
+    fsExtra.copySync(path.join(__dirname, '../tsconfig.json'), `${baseDir}/tsconfig.json`);
   }
   return compileConfig;
 }

@@ -1,11 +1,12 @@
-const app = require('express')();
 const chalk = require('chalk');
 const webpack = require('webpack');
+const express = require('express');
 const history = require('connect-history-api-fallback');
 const httpProxyMiddleware = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackBaseConfig = require('./config/webpack.base.config');
+const app = express();
 module.exports = function(params) {
     const baseConfig = webpackBaseConfig(params);
     const compiler = webpack(baseConfig);
@@ -17,12 +18,16 @@ module.exports = function(params) {
       });
       const devMiddleware = webpackDevMiddleware(compiler, {
         publicPath: baseConfig.output.publicPath,
+        hot: true,
         stats: {
           chunk: false,
           colors: true
         }
       });
-      const hotMiddleware = webpackHotMiddleware(compiler);
+      const hotMiddleware = webpackHotMiddleware(compiler, {
+        log: false,
+        heartbeat: 2000,
+      });
       app.use(history());
       app.use(devMiddleware);
       app.use(hotMiddleware);

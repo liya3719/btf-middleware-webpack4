@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -40,9 +40,18 @@ module.exports = function (params) {
     plugins: [
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: 'css/[name].css'
-      })
+        filename: 'css/[name].[hash].css',
+      }),
+      new ProgressBarPlugin(),
     ],
+    performance: {
+      // 构建资源过大显示错误警告
+      hints: 'error',
+      // 入口文件超过290kb则显示性能提示
+      maxEntrypointSize: 300000,
+      // 构建文件后单个文件超过90kb后则显示性能提示
+      maxAssetSize: 100000
+    },
     optimization: {
       minimizer: [
         new UglifyJsPlugin({
@@ -77,6 +86,12 @@ module.exports = function (params) {
       ],
       splitChunks: {
         cacheGroups: {
+          styles: {
+            name: 'app',
+            test: /\.(c|le)ss$/,
+            chunks: 'all',
+            enforce: true,
+          },
           vendors: {
             test: (module) => {
               return /node_modules/.test(module.context)
