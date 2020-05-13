@@ -14,9 +14,9 @@ module.exports = function (params) {
           use: [
             'vue-style-loader',
             {
-              loader: 'postcss-loader'
+              loader: 'css-loader'
             },
-            'css-loader'
+            'postcss-loader'
           ]
         },
         {

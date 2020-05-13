@@ -3,7 +3,7 @@
     {{message}}
   </div>
 </template>
-<style lang="less">
+<style lang="scss">
   html, body {
     height: 100%;
   }
@@ -17,7 +17,7 @@
 export default {
   data() {
     return {
-      message: 'test123'
+      message: 'test1222223'
     }
   }
 }

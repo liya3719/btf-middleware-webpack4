@@ -62,3 +62,5 @@ webpackBuild(params);
 - 调整baseConfig配置
 - 修复development热更新失败问题
 - 支持动态import
+#### 1.0.6版本更新内容如下
+- 修复development直接编译css文件错误
