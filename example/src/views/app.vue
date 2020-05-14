@@ -3,7 +3,7 @@
     {{message}}
   </div>
 </template>
-<style lang="scss">
+<style lang="sass">
   html, body {
     height: 100%;
   }

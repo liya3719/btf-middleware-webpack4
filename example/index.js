@@ -11,13 +11,13 @@ const params = {
     target: 'http://localhost:3000'
   },
   port: 8090,
-  isAnalyzer: false,
+  isAnalyzer: true,
   alias: {
     '@': path.resolve(__dirname, 'src')
   },
   srcPath: baseDir,
-  mode: 'development',  // production or development
+  mode: 'production',  // production or development
   modules: '',
-  env: 'dev' // prod or dev
+  env: 'prod' // prod or dev
 };
 webpackBuild(params);

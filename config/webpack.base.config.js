@@ -6,7 +6,8 @@ const fsExtra = require('fs-extra');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 /**
  * @param {params} 项目使用配置
  */
@@ -16,8 +17,9 @@ module.exports = function (params) {
   for(let k in params.entry) {
     entry.push(params.entry[k]);
   };
+  let entries = params.mode == "development" ? entry: params.entry;
   let baseConfig = {
-    entry: entry,
+    entry: entries,
     output: {
       path: params.mode == "development" ? '/' : path.resolve(baseDir, 'dist/'),
       sourceMapFilename: '[file].map',
@@ -89,11 +91,6 @@ module.exports = function (params) {
     // 统计信息，发生错误时提示
     stats: 'errors-only',
   };
-  if(params.isAnalyzer) {
-    baseConfig.plugins.push(
-      new BundleAnalyzerPlugin()
-    )
-  };
   const webpackExtendConfig = require(`${baseDir}/webpack.config`);
   const config = require(`./webpack.${params.env}.config`)(params);
   let compileConfig = webpackMerge.smart(baseConfig, config);
@@ -123,12 +120,19 @@ module.exports = function (params) {
   /**
    * 复制webpack4中间件相关配置到项目目录
    */
-  fsExtra.copySync(path.join(__dirname, '../.babelrc'), `${baseDir}/.babelrc`);
+  if (!fs.existsSync(`${baseDir}/.babelrc`)) {
+    fsExtra.copySync(path.join(__dirname, '../.babelrc'), `${baseDir}/.babelrc`);
+  }
   if (!fs.existsSync(`${baseDir}/postcss.config.js`)) {
     fsExtra.copySync(path.join(__dirname, '../postcss.config.js'), `${baseDir}/postcss.config.js`);
   }
   if (params.useTs) {
     fsExtra.copySync(path.join(__dirname, '../tsconfig.json'), `${baseDir}/tsconfig.json`);
-  }
+  };
+  if(params.isAnalyzer) {
+    compileConfig.plugins.push(
+      new BundleAnalyzerPlugin()
+    )
+  };
   return compileConfig;
 }

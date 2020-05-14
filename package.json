@@ -1,6 +1,6 @@
 {
   "name": "btf-middleware-webpack4",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "基于webpack4提取大部分公用功能，只需要简单配置就可使用",
   "main": "index.js",
   "scripts": {
@@ -50,7 +50,7 @@
     "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^2.1.0",
     "raw-loader": "^2.0.0",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^7.3.1",
     "serve-static": "^1.13.2",
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",

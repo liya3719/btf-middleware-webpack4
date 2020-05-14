@@ -66,4 +66,7 @@ webpackBuild(params);
 - 修复development直接编译css文件错误
 #### 1.0.7版本更新内容如下
 - 修复proxyMiddleware版本问题
+#### 1.0.8版本更新内容如下
+- 修复production编译sass报错
+- 开发环境去掉webpack-hot-middleware打包到vendor问题
 

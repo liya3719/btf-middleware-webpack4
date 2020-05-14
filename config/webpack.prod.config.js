@@ -24,7 +24,8 @@ module.exports = function (params) {
             'vue-style-loader',
             MiniCssExtractPlugin.loader,
             'css-loader',
-            'less-loader'
+            'less-loader',
+            'postcss-loader'
           ]
         },
         {
@@ -32,7 +33,9 @@ module.exports = function (params) {
           use: [
             'vue-style-loader',
             MiniCssExtractPlugin.loader,
-            'sass-loader'
+            'css-loader',
+            'sass-loader',
+            'postcss-loader'
           ]
         }
       ]
