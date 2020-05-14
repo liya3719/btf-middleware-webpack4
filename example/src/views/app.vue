@@ -17,7 +17,7 @@
 export default {
   data() {
     return {
-      message: 'test1222223'
+      message: 'test12221111111223'
     }
   }
 }

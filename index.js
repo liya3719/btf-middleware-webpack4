@@ -2,7 +2,7 @@ const chalk = require('chalk');
 const webpack = require('webpack');
 const express = require('express');
 const history = require('connect-history-api-fallback');
-const httpProxyMiddleware = require('http-proxy-middleware');
+const {createProxyMiddleware} = require('http-proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackBaseConfig = require('./config/webpack.base.config');
@@ -11,7 +11,7 @@ module.exports = function(params) {
     const baseConfig = webpackBaseConfig(params);
     const compiler = webpack(baseConfig);
     if(params.mode === 'development') {
-      const proxy = httpProxyMiddleware(params.proxy.api, {
+      const proxy = createProxyMiddleware(params.proxy.api, {
         target: params.proxy.target,
         ws: true,
         changeOrigin: true,
