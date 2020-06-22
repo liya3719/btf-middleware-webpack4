@@ -69,4 +69,5 @@ webpackBuild(params);
 #### 1.0.8版本更新内容如下
 - 修复production编译sass报错
 - 开发环境去掉webpack-hot-middleware打包到vendor问题
-
+#### 1.1.0版本更新内容如下
+- 更新调用示例
