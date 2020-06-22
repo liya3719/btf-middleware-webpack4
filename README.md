@@ -26,8 +26,9 @@ btf-middleware-webpack4
 ```
 const path = require('path');
 const baseDir = process.cwd();
-const srcPath = path.resolve(baseDir, 'src');
-const webpackBuild = require('btf-middleware-webpack4');
+const webpackBuild = require('../index');
+const mode = process.env.NODE_ENV;
+const env = mode === 'development' ? 'dev' : 'prod';
 const params = {
   isMulti: false,
   entry: {
@@ -37,18 +38,15 @@ const params = {
     api: ['/api', '/test'],
     target: 'http://localhost:3000'
   },
-  srcPath: srcPath,
   port: 8090,
   isAnalyzer: false,
   alias: {
     '@': path.resolve(__dirname, 'src')
   },
-  externals: {
-    vue: 'Vue'
-  },
-  mode: 'production',  // production or development
+  srcPath: baseDir,
+  mode: mode,  // production or development
   modules: '',
-  env: 'prod' // prod or dev
+  env: env // prod or dev
 };
 webpackBuild(params);
 ```
