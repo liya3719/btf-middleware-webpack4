@@ -1,6 +1,8 @@
 const path = require('path');
 const baseDir = process.cwd();
 const webpackBuild = require('../index');
+const mode = process.env.NODE_ENV;
+const env = mode === 'development' ? 'dev' : 'prod';
 const params = {
   isMulti: false,
   entry: {
@@ -11,13 +13,13 @@ const params = {
     target: 'http://localhost:3000'
   },
   port: 8090,
-  isAnalyzer: true,
+  isAnalyzer: false,
   alias: {
     '@': path.resolve(__dirname, 'src')
   },
   srcPath: baseDir,
-  mode: 'production',  // production or development
+  mode: mode,  // production or development
   modules: '',
-  env: 'prod' // prod or dev
+  env: env // prod or dev
 };
 webpackBuild(params);
