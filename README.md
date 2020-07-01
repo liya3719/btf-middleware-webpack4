@@ -52,6 +52,26 @@ webpackBuild(params);
 ```
 #### 说明
 1、需要目标项目package.json webpack安装到4.x版本
+#### 注意事项
+#### 项目配置约定
+- 如原项目中使用.postcssrc.js建议替换为postcss.config.js,配置如下，或browserslist配置写入到项目package.json
+```
+module.exports = {
+    plugins: [
+        require('postcss-import'),
+        require('autoprefixer')({
+            overrideBrowserslist: [
+                'iOS >= 7',
+                'Android >= 4.1',
+                'last 10 Chrome versions',
+                'last 10 Firefox versions',
+                'Safari >= 6',
+                'ie > 8'
+            ]
+        })
+    ]
+}
+```
 #### 更新日志
 #### 1.0.3版本更新内容如下
 - 修复构建不输出html文件的问题
@@ -69,3 +89,5 @@ webpackBuild(params);
 - 开发环境去掉webpack-hot-middleware打包到vendor问题
 #### 1.1.0版本更新内容如下
 - 更新调用示例
+#### 1.1.1笨笨更新内容如下
+- 修复构建less含有@{deep}关键字打包错误
