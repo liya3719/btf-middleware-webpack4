@@ -1,5 +1,5 @@
-#!/usr/bin/env node
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const {
   CleanWebpackPlugin
@@ -57,20 +57,20 @@ module.exports = function (params) {
     },
     optimization: {
       minimizer: [
-        new UglifyJsPlugin({
+        new TerserPlugin({
           exclude: /\.min\.js$/,
           cache: true,
           parallel: true,
           extractComments: true,
-          uglifyOptions: {
-            compress: {
-              unused: true,
-              drop_debugger: true
-            },
-            output: {
-              comments: false
-            }
-          }
+          // uglifyOptions: {
+          //   compress: {
+          //     unused: true,
+          //     drop_debugger: true
+          //   },
+          //   output: {
+          //     comments: false
+          //   }
+          // }
         }),
         new OptimizeCssAssetsPlugin({
           assetNameRegExp: /\.css$/,

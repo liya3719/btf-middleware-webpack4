@@ -14,10 +14,19 @@
   }
 </style>
 <script>
+const test = '111';
+const a = [1,2,3];
+const b = [4,5,6];
 export default {
   data() {
     return {
       message: 'test1222111111221223'
+    }
+  },
+  methods: {
+    init() {
+      console.log(test);
+      console.log({...a, ...b});
     }
   }
 }

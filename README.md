@@ -29,6 +29,9 @@ const baseDir = process.cwd();
 const webpackBuild = require('../index');
 const mode = process.env.NODE_ENV;
 const env = mode === 'development' ? 'dev' : 'prod';
+function resolve (dir) {
+    return path.join(__dirname, '..', dir)
+}
 const params = {
   isMulti: false,
   entry: {
@@ -39,6 +42,8 @@ const params = {
     target: 'http://localhost:3000'
   },
   port: 8090,
+  path: resolve('dist/static'),
+  publicPath: 'dist/static',
   isAnalyzer: false,
   alias: {
     '@': path.resolve(__dirname, 'src')

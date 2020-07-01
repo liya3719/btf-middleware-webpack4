@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const webpack = require('webpack');
 /**
  * 开发环境相关配置

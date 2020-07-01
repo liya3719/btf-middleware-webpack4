@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
 const baseDir = process.cwd();
@@ -21,7 +20,7 @@ module.exports = function (params) {
   let baseConfig = {
     entry: entries,
     output: {
-      path: params.mode == "development" ? '/' : path.resolve(baseDir, 'dist/'),
+      path: params.mode == "development" ? '/' : params.path,
       sourceMapFilename: '[file].map',
       filename: params.mode == "development" ? "[name].[hash].js": "js/[name].[hash].js",
       libraryTarget: 'umd',
@@ -45,6 +44,7 @@ module.exports = function (params) {
         {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
+          include: [path.join(baseDir, 'src')],
           use: [{
             loader: 'babel-loader',
             options: {
