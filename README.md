@@ -53,7 +53,6 @@ webpackBuild(params);
 #### 说明
 1、需要目标项目package.json webpack安装到4.x版本
 #### 注意事项
-#### 项目配置约定
 - 如原项目中使用.postcssrc.js建议替换为postcss.config.js,配置如下，或browserslist配置写入到项目package.json
 ```
 module.exports = {
