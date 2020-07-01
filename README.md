@@ -88,5 +88,5 @@ module.exports = {
 - 开发环境去掉webpack-hot-middleware打包到vendor问题
 #### 1.1.0版本更新内容如下
 - 更新调用示例
-#### 1.1.1笨笨更新内容如下
+#### 1.1.1版本更新内容如下
 - 修复构建less含有@{deep}关键字打包错误
