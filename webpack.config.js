@@ -1,19 +1,18 @@
+/*
 /**
  * webpack业务配置,例子
  */
-module.exports = function () {
-  let extendConf = {
-    plugins: [
+let extendConf = {
+  plugins: [
+    
+  ],
+  resolve: {
+    
+  },
+  module: {
+    rules: [
       
-    ],
-    resolve: {
-     
-    },
-    module: {
-      rules: [
-        
-      ]
-    }
-  };
-  return extendConf;
+    ]
+  }
 };
+module.exports = extendConf;
